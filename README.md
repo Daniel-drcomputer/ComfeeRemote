@@ -6,6 +6,8 @@ Die Anwendung ist in **C# / WPF** geschrieben und kommuniziert direkt mit der Kl
 
 Es wird **keine Cloud-Verbindung** für die Steuerung benötigt.
 
+<img src="vorschau.png" width="25%">
+
 ## Funktionen
 
 Aktuell unterstützt:
