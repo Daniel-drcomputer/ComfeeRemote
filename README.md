@@ -31,11 +31,13 @@ Die Oberfläche orientiert sich dabei an einer normalen Comfee-Fernbedienung.
 
 ## Noch nicht vollständig umgesetzt
 
-Folgende Funktionen sind aktuell nur als Bedienelement vorhanden:
+Folgende Bedienelemente sind bereits in der Oberfläche vorhanden, führen aktuell aber **noch keinen vollständigen Gerätebefehl aus**:
 
 - DIRECT
 - TIMER ON
 - TIMER OFF
+
+Diese Funktionen sind daher derzeit als Platzhalter anzusehen.
 
 Je nach Klimagerät können außerdem einzelne Funktionen vom Gerät selbst nicht unterstützt werden.
 
@@ -218,7 +220,9 @@ Model
 
 Die IP-Adresse findet man normalerweise direkt im Router.
 
-Die übrigen Werte können beispielsweise einmalig mit dem Open-Source-Projekt `midea-local` ermittelt werden.
+Die übrigen Werte können beispielsweise einmalig mit dem Open-Source-Projekt **midea-local** ermittelt werden:
+
+https://github.com/midea-lan/midea-local
 
 Python wird dafür **nur zur Ermittlung der Gerätedaten benötigt**, nicht zum späteren Betrieb von Comfee Remote.
 
@@ -369,7 +373,7 @@ Insbesondere neuere Geräte mit anderen Protokollversionen können eine zusätzl
 
 Die lokale Protokollimplementierung orientiert sich unter anderem an den Erkenntnissen des Open-Source-Projekts:
 
-`midea-lan/midea-local`
+https://github.com/midea-lan/midea-local
 
 Comfee Remote benötigt diese Python-Bibliothek zur Laufzeit jedoch nicht.
 
