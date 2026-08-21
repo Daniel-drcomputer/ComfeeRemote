@@ -1,0 +1,393 @@
+<Window x:Class="ComfeeRemote.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Comfee Remote"
+        Width="520" Height="860"
+        MinWidth="320" MinHeight="520"
+        WindowStartupLocation="CenterScreen"
+        Background="#202124"
+        Loaded="Window_Loaded"
+        Closing="Window_Closing">
+
+    <Window.Resources>
+        <Style x:Key="RemoteButton" TargetType="Button">
+            <Setter Property="Width" Value="97"/>
+            <Setter Property="Height" Value="58"/>
+            <Setter Property="Margin" Value="7"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#292929"/>
+            <Setter Property="Background" Value="#ECECEC"/>
+            <Setter Property="BorderBrush" Value="#B8B8B8"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="29"
+                                Padding="8">
+
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FFFFFF"/>
+                            </Trigger>
+
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#D5D5D5"/>
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.45"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <Style x:Key="PowerButton"
+               TargetType="Button"
+               BasedOn="{StaticResource RemoteButton}">
+
+            <Setter Property="Background" Value="#E6AD44"/>
+            <Setter Property="BorderBrush" Value="#B47C18"/>
+
+        </Style>
+
+
+        <Style x:Key="TempButton"
+               TargetType="Button"
+               BasedOn="{StaticResource RemoteButton}">
+
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Height" Value="54"/>
+            <Setter Property="FontSize" Value="24"/>
+
+        </Style>
+    </Window.Resources>
+
+
+    <!--
+        Viewbox sorgt dafür, dass die komplette Fernbedienung
+        proportional mit der Fenstergröße skaliert.
+    -->
+    <Viewbox Stretch="Uniform"
+             StretchDirection="Both"
+             HorizontalAlignment="Center"
+             VerticalAlignment="Center">
+
+        <!--
+            Originalgröße des Inhalts.
+            Dadurch bleiben alle deine bisherigen Positionen
+            und Größen exakt im gleichen Verhältnis.
+        -->
+        <Grid Width="520"
+              Height="860">
+
+            <Grid Margin="18">
+
+                <Border Background="#F1F1F1"
+                        CornerRadius="24"
+                        BorderBrush="#A7A7A7"
+                        BorderThickness="1"
+                        Padding="22">
+
+                    <Grid>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="235"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+
+                        <!-- COMFEE -->
+
+                        <TextBlock x:Name="KlimaName"
+                                   Grid.Row="0"
+                                   Text="COMFEE"
+                                   FontSize="18"
+                                   FontWeight="Bold"
+                                   Foreground="#444"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,12"/>
+
+
+                        <!-- LCD -->
+
+                        <Border Grid.Row="1"
+                                Background="#C9B98C"
+                                BorderBrush="#8F8264"
+                                BorderThickness="2"
+                                CornerRadius="6"
+                                Padding="15">
+
+                            <Grid>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="35"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="38"/>
+                                    <RowDefinition Height="26"/>
+                                </Grid.RowDefinitions>
+
+
+                                <!-- LCD oben -->
+
+                                <Grid Grid.Row="0">
+
+                                    <TextBlock x:Name="ModeText"
+                                               Text="AUTO"
+                                               FontSize="18"
+                                               FontWeight="SemiBold"
+                                               Foreground="#413C2C"
+                                               VerticalAlignment="Center"/>
+
+                                    <TextBlock x:Name="PowerText"
+                                               Text="● AUS"
+                                               FontSize="16"
+                                               FontWeight="SemiBold"
+                                               Foreground="#413C2C"
+                                               HorizontalAlignment="Right"
+                                               VerticalAlignment="Center"/>
+
+                                </Grid>
+
+
+                                <!-- Soll-Temperatur -->
+
+                                <StackPanel Grid.Row="1"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal">
+
+                                    <TextBlock x:Name="TargetTempText"
+                                               Text="--"
+                                               FontFamily="Consolas"
+                                               FontSize="96"
+                                               FontWeight="Bold"
+                                               Foreground="#302E25"/>
+
+                                    <TextBlock Text="°C"
+                                               FontSize="28"
+                                               FontWeight="SemiBold"
+                                               Foreground="#302E25"
+                                               Margin="4,22,0,0"
+                                               VerticalAlignment="Top"/>
+
+                                </StackPanel>
+
+
+                                <!-- LCD unten -->
+
+                                <Grid Grid.Row="2">
+
+                                    <TextBlock x:Name="FanText"
+                                               Text="FAN AUTO"
+                                               FontSize="16"
+                                               FontWeight="SemiBold"
+                                               Foreground="#413C2C"
+                                               VerticalAlignment="Center"/>
+
+                                    <TextBlock x:Name="RoomTempText"
+                                               Text="Innen -- °C  |  Außen -- °C"
+                                               FontSize="14"
+                                               Foreground="#413C2C"
+                                               HorizontalAlignment="Right"
+                                               VerticalAlignment="Center"/>
+
+                                </Grid>
+                                <!-- LCD Status Swing / Turbo -->
+
+                                <Grid Grid.Row="3"
+                                      Margin="0,2,0,0">
+
+                                    <TextBlock x:Name="SwingStatusText"
+                                               Text="SWING ○"
+                                               FontSize="13"
+                                               FontWeight="SemiBold"
+                                               Foreground="#413C2C"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"/>
+
+                                    <TextBlock x:Name="TurboStatusText"
+                                               Text="TURBO ○"
+                                               FontSize="13"
+                                               FontWeight="SemiBold"
+                                               Foreground="#413C2C"
+                                               HorizontalAlignment="Right"
+                                               VerticalAlignment="Center"/>
+
+                                </Grid>
+                            </Grid>
+
+                        </Border>
+
+
+                        <!-- STATUS -->
+
+                        <TextBlock Grid.Row="2"
+                                   x:Name="StatusText"
+                                   Text="Verbinde..."
+                                   Foreground="#555"
+                                   FontSize="13"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,10,0,6"/>
+
+
+                        <!-- TASTEN -->
+
+                        <Grid Grid.Row="3"
+                              Margin="0,2,0,0">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1.15*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+
+
+                            <!-- LINKS -->
+
+                            <StackPanel Grid.Column="0"
+                                        VerticalAlignment="Top"
+                                        Margin="0,0,22,0">
+
+                                <Button Content="ON/OFF"
+                                        Style="{StaticResource PowerButton}"
+                                        Click="Power_Click"/>
+
+                                <Button Content="MODE"
+                                        Style="{StaticResource RemoteButton}"
+                                        Click="Mode_Click"/>
+
+                                <Button Content="FAN"
+                                        Style="{StaticResource RemoteButton}"
+                                        Click="Fan_Click"/>
+
+                                <Button Content="SLEEP"
+                                        Style="{StaticResource RemoteButton}"
+                                        Click="Sleep_Click"/>
+
+                                <Button Content="TURBO"
+                                        Style="{StaticResource RemoteButton}"
+                                        Click="Turbo_Click"/>
+
+                            </StackPanel>
+
+
+                            <!-- MITTE -->
+
+                            <StackPanel Grid.Column="1"
+                                        VerticalAlignment="Top"
+                                        HorizontalAlignment="Center"
+                                        Margin="0,62,0,0"
+                                        Width="200">
+
+                                <Button Content="▲"
+                                        Style="{StaticResource TempButton}"
+                                        Click="TempUp_Click"/>
+
+                                <TextBlock Text="TEMP"
+                                           FontSize="16"
+                                           FontWeight="Bold"
+                                           Foreground="#555"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,1,0,1"/>
+
+                                <Button Content="▼"
+                                        Style="{StaticResource TempButton}"
+                                        Click="TempDown_Click"/>
+
+
+                                <WrapPanel HorizontalAlignment="Right"
+                                           Margin="0,5,0,0"
+                                           Width="132">
+
+                                    <Button Content="SWING"
+                                            Style="{StaticResource RemoteButton}"
+                                            Click="Swing_Click"/>
+
+                                    <Button Content="LED"
+                                            Style="{StaticResource RemoteButton}"
+                                            Click="Led_Click"/>
+
+                                </WrapPanel>
+
+                            </StackPanel>
+
+
+                            <!-- RECHTS -->
+
+                            <StackPanel Grid.Column="2"
+                                        VerticalAlignment="Top"
+                                        Height="284"
+                                        Margin="25,0,0,0">
+
+                                <Button Content="SHORT CUT"
+                                        Style="{StaticResource RemoteButton}"
+                                        Click="Shortcut_Click"/>
+
+                                <Button Content="TIMER ON"
+                                        Style="{StaticResource RemoteButton}"
+                                        Click="TimerOn_Click"/>
+
+                                <Button Content="TIMER OFF"
+                                        Style="{StaticResource RemoteButton}"
+                                        Click="TimerOff_Click"/>
+
+                                <Button Content="DIRECT"
+                                        Style="{StaticResource RemoteButton}"
+                                        Click="Direct_Click"/>
+
+                            </StackPanel>
+
+                        </Grid>
+
+
+                        <!-- UNTEN -->
+
+                        <Grid Grid.Row="4"
+                              Margin="0,12,0,0">
+
+                            <Button Content="↻ Status aktualisieren"
+                                    Height="34"
+                                    Padding="12,2"
+                                    HorizontalAlignment="Left"
+                                    Click="Refresh_Click"/>
+
+                            <TextBlock x:Name="ConnectionText"
+                                       Text="127.0.0.1:6444"
+                                       Foreground="#666"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Center"/>
+
+                        </Grid>
+
+                    </Grid>
+
+                </Border>
+
+            </Grid>
+
+        </Grid>
+
+    </Viewbox>
+
+</Window>

@@ -1,0 +1,11 @@
+{
+  "Name": "Wohnzimmer",
+  "IpAddress": "192.168.1.100",
+  "Port": 6444,
+  "DeviceId": 12345678901234,
+  "DeviceType": 172,
+  "DeviceProtocol": 2,
+  "Model": "00000Q13",
+  "MessageProtocol": 0,
+  "RefreshSeconds": 8
+}
